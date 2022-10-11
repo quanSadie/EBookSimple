@@ -1,0 +1,68 @@
+.sortby {
+    margin-top: 21px;
+    margin-bottom: 10.5px;
+}
+
+.nobr {
+    white-space: nowrap;
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+    border-color: #2a6496;
+}
+
+.price {
+    color: #b2395b;
+}
+
+.b {
+    font-weight: bold;
+}
+
+a,
+a:hover,
+a:active {
+    color: #2a6496;
+}
+
+.justify {
+    text-align: justify;
+}
+
+body {
+    margin: 0
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
+    display: block
+}
+
+#bookContainer {
+    display: flex;
+}
+
+a.thumbnail.bge {
+    margin: 0 0 21px;
+}
+
+.pagination {
+    font-size: 18px;
+    font-family: monospace;
+    display: inline-block;
+    padding-left: 0;
+    margin: 21px 0;
+    border-radius: 4px;
+}
