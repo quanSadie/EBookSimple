@@ -50,7 +50,7 @@ public class LoginServlet extends HttpServlet {
 
 						current_name = rs.getString("fullname");
 						current_id = rs.getString("user_id");
-						current_mail = rs.getString("email");
+						current_mail = rs.getString("userEmail");
 						current_username = rs.getString("username");
 						current_role = rs.getInt("role");
 						current_vipAcc = rs.getInt("statusAcc");
@@ -77,8 +77,7 @@ public class LoginServlet extends HttpServlet {
 				response.sendRedirect("admin-page.jsp");
 				// neu ten dang nhap va mat khau dung va la admin -> chuyen den trang admin
 			} else if (current_role == 0) {
-				// neu ten dang nhap va mat khau dung va ko la admin -> chuyen den home
-				response.sendRedirect("home.jsp");
+				response.sendRedirect("index.jsp");
 			} else {
 				// chuyen den trang staff
 			}

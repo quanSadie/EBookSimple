@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 
@@ -18,12 +19,7 @@
         <div class="form-container sign-up-container">
             <form action="signup" method="POST">
                 <h1>Create Account</h1>
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-                </div>
-                <span>or use your email for registration</span>
+                <br>
                 <input type="text" name="signUpName" placeholder="Name" />
                 <input type="email" name="signUpEmail" placeholder="Email" />
                 <input type="text" name="signUpUsername" placeholder="Username" />
@@ -35,7 +31,7 @@
             <form action="login" method="POST">
                 <h1>Sign in</h1>
                 <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.facebook.com/dialog/oauth?client_id=359123991240252&redirect_uri=https://localhost:8443/AccessFacebook/login-facebook" class="social"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>

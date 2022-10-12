@@ -19,7 +19,7 @@ $(document).ready(function() {
                      '<div class="card-img-overlay ">Slide 1</div>' + 
                      ' </div>' +
                      ' </div>');
-					$('#productRow').append('<div class="col mb-5">' +
+					$('#productRow').append('<div class="imgFrame col mb-5">' +
                      '<div class="card h-100">' +
                      '<img class="card-img-top" src="' + data1.image + '" alt="" />' + 
                      +'<div class="card-body p-4">' + 
@@ -29,11 +29,11 @@ $(document).ready(function() {
                      ' </div>' + 
                      ' </div>' +
                      '<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' + 
-                     '<div class="text-center"><a download="myfile.pdf" class="btn btn-outline-dark mt-auto" href="'+ pdff + '">View options</a>' +
+                     '<div class="text-center"><a download="myfile.pdf" class="readbtn btn btn-outline-dark mt-auto" href="'+ pdff + '">Read</a>' +
                     '</div>' + 
                     ' </div>' +
                     '</div>');
-                    
+  					$(".imgFrame").css("color", "#D8C3A5");
                 });
 
               });

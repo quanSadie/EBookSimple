@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,24 +12,19 @@ import javax.servlet.http.HttpSession;
 import DAO.BookDAO;
 import Model.Book;
 
-/**
- * Servlet implementation class SearchBookServlet
- */
-@WebServlet("/SearchBookServlet")
-public class SearchBookServlet extends HttpServlet {
+@WebServlet("/ShowOneBookServlet")
+public class ShowOneBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String this_isbn13 = request.getParameter("currentISBN13");
 		BookDAO dao = new BookDAO();
-		ArrayList<Book> list = new ArrayList<Book>();
-
-		list = dao.searchBooks(request.getParameter("searchinfo"));
-
+		Book b = dao.showBookDetail(this_isbn13);
 		HttpSession session = request.getSession();
-		session.setAttribute("searchKey", request.getParameter("searchinfo"));
-		session.setAttribute("SearchResults", list);
-		response.sendRedirect("search-page.jsp");
+		session.setAttribute("thisBookDetail", b);
+		response.sendRedirect("bookdetail.jsp");
 	}
 
 }

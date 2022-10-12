@@ -101,6 +101,26 @@ public class BookDAO {
 	}
 	// --------------------------------------------------------------------------------
 
+	// -------------------------- Hien thi chi tiet sach
+	// ------------------------------
+	public Book showBookDetail(String isbn_13) throws JSONException, IOException {
+		Random rd = new Random();
+		Book b = new Book();
+		String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+		JSONObject json = readJsonFromUrl(url + isbn_13);
+		JSONArray arr = json.getJSONArray("items");
+		for (int i = 0; i < arr.length(); i++) {
+			b.setTitle(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("title"));
+			b.setDescription(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("description"));
+			b.setImageUrl(arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks")
+					.getString("thumbnail"));
+			b.setIsbn(isbn_13);
+			b.setPrice("FREE");
+			b.setReadLink(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink"));
+		}
+		return b;
+	}
+
 	// -------------------------- Them sach vao database --------------------------
 	public void AddBook(String tt, String img, String price, String des, String isbn, String rl) {
 		DBUtils db = DBUtils.getInstance();
