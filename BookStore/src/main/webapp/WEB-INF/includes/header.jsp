@@ -1,10 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <style>
-    #searchbtn:hover{
-    background-color: rgba(0, 0, 0, 0.9);
-    }
-    </style>
  <header class="header" style="background-color: #D8C3A2;">
         <nav class="navbar sticky-top navbar-expand-lg">
             <div class="container px-4 px-lg-5">
@@ -53,7 +48,7 @@
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 style="color: lightgreen; text-shadow: 2px 2px green;" class="display-4 fw-bolder">Welcome to RidBuk</h1>
-                <p style="color: whitesmoke; text-shadow: 1px 1px black;" class="lead fw-normal mb-0">Every book will in your device</p>
+                <p style="color: whitesmoke; text-shadow: 1px 1px black;" class="lead fw-normal mb-0">Broaden your horizon across interesting books</p>
             </div>
             <div class="container">
 

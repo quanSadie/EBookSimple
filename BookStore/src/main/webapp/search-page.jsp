@@ -23,8 +23,8 @@
      overflow: hidden;
    text-overflow: ellipsis;
    display: -webkit-box;
-   -webkit-line-clamp: 3; /* number of lines to show */
-           line-clamp: 3; 
+   -webkit-line-clamp: 6; /* number of lines to show */
+           line-clamp: 6; 
    -webkit-box-orient: vertical; 
     }
     </style>
