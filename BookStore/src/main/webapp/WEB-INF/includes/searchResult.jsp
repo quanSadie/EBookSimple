@@ -1,52 +1,56 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div class="container">
-        <div class="row">
-            <div class="col-md-9">
-                <h1 style="">Search results for "<span style="font-style: italic; color: blue; ">
-                <%=request.getSession().getAttribute("searchKey") %>
-                </span>"</h1>
-            </div>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    
+    
+    <div style="font-weight: bolder;" class="container" style="height: auto !important;">
+            <a href="index.jsp" title="Bookstore">Bookstore</a>
+             > 
+            <a href="#" title="Books" >Search results</a>
+             >  
+            <b><span style="font-style: italic; color: #2a6496; ">
+                ${requestScope.searchKey}
+                </span></b>
             <hr>
         </div>
-        <br>
-        <ins class=""></ins>
-    </div>
     <br>
 
-
-				<%@ page import="java.util.ArrayList, Model.Book" %>
-                <%	ArrayList<Book> searchList = (ArrayList<Book>)request.getSession().getAttribute("SearchResults");%>
     <!--books-->
     <div class="container" id="bookContainer">
         <div class="row ">
         
-        <%if (searchList != null){
-			for (Book b: searchList) { %> 
+        <c:forEach items="${requestScope.mylist}" var="value">
         
-        <div class="col-md-6 mb10" style="margin-bottom: 20px; margin-top: 20px;">
+        
+       
+    <div class="col-md-6 mb10" style="margin-bottom: 20px; margin-top: 20px;">
       <div class="row">
       <div class="col-md-4">
-        <a href="<%=b.getReadLink() %>" class="thumbnail bge" title="HackSpace Magazine: Issue 58"><img style="width: 150px;" src="<%=b.getImageUrl() %>" alt="HackSpace Magazine: Issue 58"></a>
+        <a href="ShowOneBookServlet?currentISBN13=<c:out value="${value.isbn}" />" class="thumbnail bge" title="<c:out value="${value.title}" />"><img style="width: 150px;" src="<c:out value="${value.imageUrl}" />" alt="HackSpace Magazine: Issue 58"></a>
       </div>    
       <div class="col-md-8 justify">
       <p class="desClass">
-      <a href="/books/1001664382115" title="HackSpace Magazine: Issue 58"><%=b.getTitle() %></a>
+      <a class="b text-decoration-none" style="color: #2a6496;" href="ShowOneBookServlet?currentISBN13=<c:out value="${value.isbn}" />" title="<c:out value="${value.title}" />"><c:out value="${value.title}" /></a>
        <span class="nobr">
-       <span class="nobr" title="Without ratings"><img src="/img/star0.png" width="16" height="16" alt="" class="star"><img src="/img/star0.png" width="16" height="16" alt="" class="star">
-       <img src="/img/star0.png" width="16" height="16" alt="" class="star">
-       <img src="/img/star0.png" width="16" height="16" alt="" class="star">
-       <img src="/img/star0.png" width="16" height="16" alt="" class="star">
-       <br>
+       <span class="nobr" title="Without ratings">
+       <img src="img/star.png" width="16" height="16" alt="" class="star">
+       <img src="img/star.png" width="16" height="16" alt="" class="star">
+       <img src="img/star.png" width="16" height="16" alt="" class="star">
+       <img src="img/star0.png" width="16" height="16" alt="" class="star">
+       <img src="img/star0.png" width="16" height="16" alt="" class="star">
+       </br>
        </span>
        </span>
-       
-      <%=b.getDescription() %>
+       <c:out value="${value.description}" />
       </p>      
       </div>
       </div>    
   </div>
-  <%} } %>
+    
+        
+		</c:forEach>
+        
+        
         
 			     </div>
                 </div>

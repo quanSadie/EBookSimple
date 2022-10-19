@@ -28,9 +28,9 @@ public class SearchBookServlet extends HttpServlet {
 		list = dao.searchBooks(request.getParameter("searchinfo"));
 
 		HttpSession session = request.getSession();
-		session.setAttribute("searchKey", request.getParameter("searchinfo"));
-		session.setAttribute("SearchResults", list);
-		response.sendRedirect("search-page.jsp");
+		request.setAttribute("searchKey", request.getParameter("searchinfo"));
+		request.setAttribute("mylist", list);
+		request.getRequestDispatcher("search-page.jsp").forward(request, response);
 	}
 
 }

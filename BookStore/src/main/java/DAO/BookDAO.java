@@ -49,7 +49,7 @@ public class BookDAO {
 	// ----------------------------------------------------------------------------
 
 	// -------------------------- Hien thi sach --------------------------
-	public ArrayList<Book> showBooks() {
+	public ArrayList<Book> getBooks() {
 		ArrayList<Book> list = new ArrayList<Book>();
 		DBUtils db = DBUtils.getInstance();
 		String sql = "Select * from books";
@@ -59,7 +59,8 @@ public class BookDAO {
 			PreparedStatement statement = con.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				list.add(new Book());
+				list.add(new Book(rs.getString("title"), rs.getString("cover"), rs.getString("price"),
+						rs.getString("description"), rs.getString("isbn"), rs.getString("readLink")));
 			}
 		} catch (Exception e) {
 			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -121,6 +122,92 @@ public class BookDAO {
 		return b;
 	}
 
+	// ---------------- Them tac gia vao database ----------------
+	public void addAuthor(String authorName) {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "insert into author(author_name) values(?);";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, authorName);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+	}
+
+	// ---------------- Them tac gia,book vao database ----------------
+	public void addAuthor_Book(int author_id, int book_id) {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "insert into authors_books(author_id, book_id) values(?,?);";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setInt(1, author_id);
+			statement.setInt(2, book_id);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+	}
+
+	// ---------------- Them genre,book vao database ----------------
+	public void addGenre_Book(int genre_id, int book_id) {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "insert into books_genres(genre_id, book_id) values(?,?);";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setInt(1, genre_id);
+			statement.setInt(2, book_id);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+	}
+
+	// ---------------- Them the loai database ----------------
+	public void addGenre(String genre) {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "insert into genres(genre_name) values(?);";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, genre);
+			statement.executeUpdate();
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+	}
+
 	// -------------------------- Them sach vao database --------------------------
 	public void AddBook(String tt, String img, String price, String des, String isbn, String rl) {
 		DBUtils db = DBUtils.getInstance();
@@ -150,6 +237,7 @@ public class BookDAO {
 
 	// ----------------------------------------------------------------------------
 	// ----------------------- Them the loai ----------------------
+
 	// (phai dc goi dong thoi luc them sach) them the loai(them du lieu vao bang
 	// trung gian giua
 	// book va genre)
@@ -198,7 +286,137 @@ public class BookDAO {
 			}
 		}
 	}
+
 	// ---------------------------------------------------`--------------------------
+	public boolean checkAuthor_exists(int thisid) {
+		ArrayList<Integer> list_author_id = new ArrayList<Integer>();
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from author";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				list_author_id.add(rs.getInt("author_id"));
+			}
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		for (int i : list_author_id) {
+			if (thisid == i) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public int getNextBookId() {
+		int currentid = 0;
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from books";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				currentid++;
+			}
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		return currentid;
+	}
+
+	public int getNextAuthorId() {
+		int currentid = 0;
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from author";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				currentid++;
+			}
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		return currentid;
+	}
+
+	public int getNextGenreId() {
+		int currentid = 0;
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from genres";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				currentid++;
+			}
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		return currentid;
+	}
+
+	public boolean checkGenre_exists(String thisgenre) {
+		ArrayList<String> list_genre = new ArrayList<String>();
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from genres";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				list_genre.add(rs.getString("genre_name"));
+			}
+		} catch (Exception e) {
+			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		for (String i : list_genre) {
+			if (thisgenre.equals(i)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
 
 // them chuc nang tim sach ko theo api (tim dua tren cac column: category, name, author, isbn,...) trong database

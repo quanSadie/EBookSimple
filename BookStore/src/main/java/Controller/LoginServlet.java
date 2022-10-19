@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.AccountDAO;
+import DAO.BookDAO;
 import DBConnect.DBUtils;
+import Model.Book;
 
 /**
  * Servlet implementation class LoginServlet
@@ -78,8 +81,12 @@ public class LoginServlet extends HttpServlet {
 				// neu ten dang nhap va mat khau dung va la admin -> chuyen den trang admin
 			} else if (current_role == 0) {
 				response.sendRedirect("index.jsp");
-			} else {
-				// chuyen den trang staff
+			} else if (current_role == 1) {
+				BookDAO bdao = new BookDAO();
+				ArrayList<Book> blist = new ArrayList<Book>();
+				blist = bdao.getBooks();
+				request.setAttribute("allBooks", blist);
+				request.getRequestDispatcher("staff.jsp").forward(request, response);
 			}
 
 		} else {

@@ -1,20 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <section style="height:auto;">
         <div class="container" style="height: auto !important;">
          <%@ page import="Model.Book" %>
           	<% Book b1 = (Book) request.getSession().getAttribute("thisBookDetail"); %>
+          	<% pageContext.setAttribute("b1", b1);  %>
             <a href="index.jsp" title="Bookstore" style="text-decoration: none;">Bookstore</a>
              > 
             <a href="#" title="Books" style="text-decoration: none;" >Books</a>
              > 
-            <b><%=b1.getTitle() %></b>
+            <b><c:out value="${b1.title}" /></b>
             <hr>
         </div>
         <div class="container" id="bookContainer" style="height: auto !important; background: rgba(216,195,192,0.5)">
             <div class="col-md-4 col-sm-6 sticky1" style="height:auto !important; min-height: 0px !important;">
                 <div class="bge2" style="background-color: #D8C3A2;">
-                    <img src="<%=b1.getImageUrl() %>" alt="Day la ten sach" title="Day la ten sach" width="100%" itemprop="image" class="imgborder bookCover" style="background: #eee;">
+                    <img src="<c:out value="${b1.imageUrl}" />" alt="Day la ten sach" title="Day la ten sach" width="100%" itemprop="image" class="imgborder bookCover" style="background: #eee;">
                     <div class="mrg20">
                     <%if (!b1.getPrice().equals("FREE")) { %>
                     	<a href="" class="btn btn-block btn1 max300" rel="nofollow" target="_blank" title="buy" style="background: #b2395b; color:#fff;">BUY</a>
@@ -22,7 +24,7 @@
                     	 <br>
                     <%} %>
                     <br>
-                    <a href="<%=b1.getReadLink()%>" class="btn btn-block btn-default max300" rel="nofollow" target="_blank" title="preview" style="background: #939393; color:#fff;">Read</a>
+                    <a href="<c:out value="${b1.readLink}" />" class="btn btn-block btn-default max300" rel="nofollow" target="_blank" title="preview" style="background: #939393; color:#fff;">Read</a>
           
                 </div>
                 </div>
@@ -75,7 +77,7 @@
                         <tr>
                             <td>ISBN13</td>
                             <td>
-                                <b itemprop="isbn"><%=b1.getIsbn() %></b>
+                                <b itemprop="isbn"><c:out value="${b1.isbn}" /></b>
                             </td>
                         </tr>
                     </tbody>
@@ -87,7 +89,7 @@
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="desc" itemprop="description">
-                    <%=b1.getDescription() %>
+                    <c:out value="${b1.description}" />
                     </div>
                 </div>
             </div>
