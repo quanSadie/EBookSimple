@@ -21,17 +21,15 @@ $(document).ready(function() {
                      ' </div>');
 					$('#productRow').append('<div class="imgFrame col mb-5">' +
                      '<div class="card h-100">' +
-                     '<img class="card-img-top" src="' + data1.image + '" alt="" />' + 
+                     '<img class="card-img-top" src="' + data1.image + '" alt="cover image" />' + 
                      +'<div class="card-body p-4">' + 
                      '<div class="text-center">' + 
-                     ' <h5 class="fw-bolder">' + data1.title + '</h5>' +
-                     data1.price + 
+                     ' <h5 class="fw-bolder"> <a style="text-decoration: none; color=#8c5a20;" download="myfile.pdf" href="'+ pdff + '">' + data1.title + ' </a></h5>' +
+                                          
+                    ' </div>' +
                      ' </div>' + 
                      ' </div>' +
-                     '<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">' + 
-                     '<div class="text-center"><a download="myfile.pdf" class="readbtn btn btn-outline-dark mt-auto" href="'+ pdff + '">Read</a>' +
-                    '</div>' + 
-                    ' </div>' +
+
                     '</div>');
   					$(".imgFrame").css("color", "#D8C3A5");
                 });

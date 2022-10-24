@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import DAO.BookDAO;
+import Model.Book;
 
 @WebServlet("/uploadBook")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -40,13 +41,14 @@ public class UploadBookServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			String b_author_id = request.getParameter("authorid");
 			String b_author = request.getParameter("book_author");
 			String b_title = request.getParameter("nameP");
 			String b_price = request.getParameter("bprice");
 			String b_category = request.getParameter("categoryID");
 			String b_isbn = request.getParameter("b_isbn");
 			String b_description = request.getParameter("bdescription");
+			String personID = request.getParameter("this_id");
+
 			BookDAO dao = new BookDAO();
 			// Đường dẫn tuyệt đối tới thư mục gốc của web app.
 			String appPath = "C:\\Users\\admin\\eclipse-workspace\\BookStore\\src\\main\\webapp";
@@ -84,18 +86,11 @@ public class UploadBookServlet extends HttpServlet {
 					part.write(filePath);
 				}
 			}
-			if (dao.checkAuthor_exists(Integer.parseInt(b_author_id))) {
-				dao.addAuthor(b_author);
-			}
-			if (dao.checkGenre_exists(b_category)) {
-				dao.addGenre(b_category);
-			}
 
-			dao.AddBook(b_title, imgPath, b_price, b_description, b_isbn, pdfPath);
-			dao.addAuthor_Book(dao.getNextAuthorId(), dao.getNextBookId());
-			dao.addGenre_Book(dao.getNextGenreId(), dao.getNextBookId());
+			Book b = new Book(b_title, imgPath, b_author, b_category, b_price, b_description, b_isbn, pdfPath);
+			dao.AddBook(b);
 			// Upload thành công.
-			response.sendRedirect(request.getContextPath() + "/addbook.jsp");
+			response.sendRedirect("StaffBookServlet");
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("errorMessage", "Error: " + e.getMessage());

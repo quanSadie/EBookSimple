@@ -58,6 +58,13 @@
                                 <b>N/A</b>
                             </td>
                         </tr>
+                        
+                        <tr>
+                            <td>Category</td>
+                            <td>
+                                <b itemprop="numberOfPages">${b1.category}</b>
+                            </td>
+                        </tr>
 
                         <tr>
                             <td>Pages</td>

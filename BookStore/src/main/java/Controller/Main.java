@@ -21,7 +21,7 @@ public class Main {
 		JSONObject json = readJsonFromUrl(url + "9780321680563");
 		JSONArray arr = json.getJSONArray("items");
 		for (int i = 0; i < arr.length(); i++) {
-			System.out.println(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink"));
+			System.out.println(arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").get(0));
 		}
 	}
 

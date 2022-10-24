@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>RidBuk-eBook</title>
+    <title>Book management</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
@@ -34,12 +34,16 @@
 <body style="background-color: #D8C3A5;">
     <!-- Header & navigation bar-->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="staff.jsp">
-            <img src="img/Example1.png" alt="" width="35" class="d-inline-block align-text-top"> Book management
+    <a style="margin-left: 10px;"class="navbar-brand" href="index.jsp">
+            <i class="fa fa-home" aria-hidden="true"></i> Home
         </a>
+        <a class="navbar-brand" href="staff.jsp">
+            <i class="fa fa-cogs" aria-hidden="true"></i> Manage
+        </a>
+        
         <div class="nav nav-tabs" id="tab-nav" roll="tablist">
             <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                Home
+                List of books
             </button>
 
             <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-bill" type="button" role="tab" aria-controls="nav-bill" aria-selected="false">
@@ -79,7 +83,6 @@
                             <table class="table table-warning table-bordered border-light table-hover">
                                 <thead class="table-light">
                                     <tr class="text-center">
-                                        <td>Book ID</td>
                                         <td>Title</td>
                                         <td>Image</td>
                                         <td>Description</td>
@@ -91,11 +94,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <%@ page import="java.util.ArrayList, Model.Book" %>
+                                <%ArrayList<Book> allBooks = (ArrayList<Book>) request.getSession().getAttribute("allBooks"); %>
+                                <%request.setAttribute("allBooks", allBooks); %>
                                     <c:forEach items="${requestScope.allBooks}" var="value">
                                         <tr>
-                                            <td class="text-center">Book ID 01</td>
                                             <td class="text-center"><c:out value="${value.title}" /></td>
-                                            <td class="text-center"><img src="<c:out value="${value.imageUrl}" />" alt="<c:out value="${value.title}" />" style="width: 170px" /></td>
+                                            <td class="text-center"><img src="<c:out value="${value.imageUrl}" />" alt="ImageCover" style="width: 170px" /></td>
                                             <td class="text-center" id="description"><c:out value="${value.description}" /></td>
                                             <td class="text-center"><c:out value="${value.price}" /></td>
                                             <td class="text-center">Book Rating 01</td>
@@ -107,7 +112,7 @@
                                                 <a class="btn btn-outline-secondary" href="./staffUpdateBook.html">Update</a>
                                             </td>
                                             <td class="text-center">
-                                                <a class="btn btn-outline-secondary" href="#">Delete</a>
+                                                <a class="btn btn-outline-secondary" href="DeleteBookServlet?bisbn=${value.isbn}">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Staff-Add New Book</title>
+    <title>Add New Book</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Bootstrap icons-->
@@ -42,10 +42,6 @@
                 
                 <form action="uploadBook" method="post" enctype="multipart/form-data">
                 
-                	<div class="my-3">
-                        <label class="form-label">Author ID </label>
-                        <input type="text" class="form-control" name="authorid">
-                    </div>
                 
                		<div class="my-3">
                         <label class="form-label">Author </label>
@@ -73,7 +69,7 @@
                     
                     <div class="my-3">
                         <label class="form-label">ISBN </label>
-                        <input type="text" class="form-control" name="b_isbn">
+                        <input id="b_isbn" type="text" class="form-control" name="b_isbn">
                     </div>
 
                     <div class="my-3">
@@ -95,9 +91,6 @@
             </div>
         </div>
     </div>
-
-
-
 	<script src="js/checkFileType.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>

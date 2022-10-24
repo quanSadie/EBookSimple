@@ -28,7 +28,6 @@
     <!-- Display books-->
      <jsp:include page="/WEB-INF/includes/bookPage.jsp" />
     <!-- Recommend Book-->
-     <jsp:include page="/WEB-INF/includes/book-slider.jsp" />
     <!-- Footer-->
 </body>
 </html>

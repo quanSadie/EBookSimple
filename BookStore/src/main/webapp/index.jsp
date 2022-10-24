@@ -35,9 +35,7 @@
      <jsp:include page="/WEB-INF/includes/header.jsp" />
     <!-- Display books-->
      <jsp:include page="/WEB-INF/includes/main-content.jsp" />
-    <!-- Recommend Book-->
-    <jsp:include page="/WEB-INF/includes/book-slider.jsp" />
-    <!-- Footer-->
+    <!-- Recommend Book-->    <!-- Footer-->
      <jsp:include page="/WEB-INF/includes/footer.jsp" />
      
      <!-- JS includes-->

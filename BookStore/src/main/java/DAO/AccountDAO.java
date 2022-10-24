@@ -98,6 +98,38 @@ public class AccountDAO {
 		return uList;
 	}
 
+	// hien thi thong tin 1 nguoi dung
+	public Account displayOneUser(String id) {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from users where user_id=?";
+		Connection con = null;
+		Account user = new Account();
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setInt(1, Integer.parseInt(id));
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				user.setUserID(id + "");
+				user.setUserEmail(rs.getString("userEmail"));
+				user.setUserName(rs.getString("username"));
+				user.setPassword(rs.getString("password"));
+				user.setRoleID(rs.getInt("role"));
+				user.setFullName(rs.getString("fullname"));
+				user.setStatusAcc(rs.getInt("statusAcc"));
+			}
+		} catch (Exception e) {
+			Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		return user;
+	}
+
 	// ham dung de check xem co trung ten dang nhap khi dang ky hay khong
 	public boolean checkUsername(String un) {
 		DBUtils db = DBUtils.getInstance();
@@ -147,17 +179,16 @@ public class AccountDAO {
 	}
 
 	// cap nhat thong tin cua nguoi dung
-	public void updUser(String s1, String s2, int s3) {
+	public void updUser(String id, String name) {
 		DBUtils db = DBUtils.getInstance();
-		String sql = "Update users SET fullname=?,password=?,statusAcc=?";
+		String sql = "Update users SET fullname=? where user_id=?";
 		Connection con = null;
 		try {
 			con = db.getConnection();
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement = con.prepareStatement(sql);
-			statement.setString(1, s1);
-			statement.setString(2, s2);
-			statement.setInt(3, s3);
+			statement.setString(1, id);
+			statement.setString(2, name);
 			statement.execute();
 		} catch (Exception e) {
 			Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);

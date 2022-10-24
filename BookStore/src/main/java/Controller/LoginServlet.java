@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,9 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.AccountDAO;
-import DAO.BookDAO;
 import DBConnect.DBUtils;
-import Model.Book;
 
 /**
  * Servlet implementation class LoginServlet
@@ -74,7 +71,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("this_email", current_mail);
 			session.setAttribute("this_id", current_id);
 			session.setAttribute("this_username", current_username);
-			session.setAttribute("this_role", current_role);
+			session.setAttribute("this_role", current_role + "");
 			session.setAttribute("this_vip", current_vipAcc);
 			if (current_role == 2) {
 				response.sendRedirect("admin-page.jsp");
@@ -82,11 +79,7 @@ public class LoginServlet extends HttpServlet {
 			} else if (current_role == 0) {
 				response.sendRedirect("index.jsp");
 			} else if (current_role == 1) {
-				BookDAO bdao = new BookDAO();
-				ArrayList<Book> blist = new ArrayList<Book>();
-				blist = bdao.getBooks();
-				request.setAttribute("allBooks", blist);
-				request.getRequestDispatcher("staff.jsp").forward(request, response);
+				response.sendRedirect("StaffBookServlet");
 			}
 
 		} else {
