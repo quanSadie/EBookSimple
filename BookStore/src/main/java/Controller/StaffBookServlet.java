@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import DAO.BookDAO;
-import Model.Book;
+import DAO.AccountDAO;
+import Model.Account;
 
 /**
  * Servlet implementation class StaffBookServlet
@@ -36,12 +36,12 @@ public class StaffBookServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		BookDAO dao = new BookDAO();
-		ArrayList<Book> list = new ArrayList<Book>();
+		AccountDAO dao = new AccountDAO();
+		ArrayList<Account> list = new ArrayList<Account>();
 
-		list = dao.getBooks();
+		list = dao.displayUsers();
 
-		session.setAttribute("allBooks", list);
+		session.setAttribute("allUsers", list);
 		response.sendRedirect("staff.jsp");
 	}
 

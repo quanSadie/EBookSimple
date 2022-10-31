@@ -48,50 +48,19 @@ public class BookDAO {
 	}
 	// ----------------------------------------------------------------------------
 
-	// -------------------------- Hien thi sach --------------------------
-	public ArrayList<Book> getBooks() {
-		ArrayList<Book> list = new ArrayList<Book>();
+	// ---------------- Lay thong tin sach cua nguoi dung ----------------
+	public ArrayList<String> getUsersBooks(String id) {
+		ArrayList<String> list = new ArrayList<String>();
 		DBUtils db = DBUtils.getInstance();
-		String sql = "Select * from books";
+		String sql = "select * from users inner join users_books on users.user_id = users_books.user_id where users.user_id=?";
 		Connection con = null;
 		try {
 			con = db.getConnection();
 			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, id);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				list.add(new Book(rs.getString("title"), rs.getString("cover"), rs.getString("author"),
-						rs.getString("category"), rs.getString("price"), rs.getString("description"),
-						rs.getString("isbn"), rs.getString("readLink")));
-			}
-		} catch (Exception e) {
-			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-		} finally {
-			try {
-				DBUtils.closeConnection(con);
-			} catch (SQLException e) {
-				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-			}
-		}
-		return list;
-	}
-
-	// -----------------------------------------------------------
-	// -------------------------- Hien thi sach --------------------------
-	public ArrayList<Book> getUsersBooks() {
-		ArrayList<Book> list = new ArrayList<Book>();
-		DBUtils db = DBUtils.getInstance();
-		String sql = "\r\n" + "select * from books inner join users_books\r\n"
-				+ "on books.book_id = users_books.book_id inner join users\r\n"
-				+ "on users.user_id = users_books.user_id\r\n" + " ";
-		Connection con = null;
-		try {
-			con = db.getConnection();
-			PreparedStatement statement = con.prepareStatement(sql);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				list.add(new Book(rs.getString("title"), rs.getString("cover"), rs.getString("author"),
-						rs.getString("category"), rs.getString("price"), rs.getString("description"),
-						rs.getString("isbn"), rs.getString("readLink")));
+				list.add(rs.getString("book_isbn"));
 			}
 		} catch (Exception e) {
 			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -118,9 +87,8 @@ public class BookDAO {
 				Book b = new Book(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("title"),
 						arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks")
 								.getString("thumbnail"),
-						(String) arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").get(0),
-						"Free ebooks", pr + "$",
-						arr.getJSONObject(i).getJSONObject("volumeInfo").getString("description"),
+						(String) arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("authors").get(0), "",
+						pr + "$", arr.getJSONObject(i).getJSONObject("volumeInfo").getString("description"),
 						arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONArray("industryIdentifiers")
 								.getJSONObject(0).getString("identifier"),
 						arr.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink"));
@@ -133,8 +101,7 @@ public class BookDAO {
 	}
 	// --------------------------------------------------------------------------------
 
-	// -------------------------- Hien thi chi tiet sach
-	// ------------------------------
+	// ----------------------- Hien thi chi tiet sach ---------------------------
 	public Book showBookDetail(String isbn_13) throws JSONException, IOException {
 		Random rd = new Random();
 		Book b = new Book();
@@ -142,68 +109,28 @@ public class BookDAO {
 		JSONObject json = readJsonFromUrl(url + isbn_13);
 		JSONArray arr = json.getJSONArray("items");
 		for (int i = 0; i < arr.length(); i++) {
+			int pr = rd.nextInt(100 - 10 + 1) + 10;
 			b.setTitle(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("title"));
 			b.setDescription(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("description"));
 			b.setImageUrl(arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks")
 					.getString("thumbnail"));
 			b.setIsbn(isbn_13);
-			b.setPrice("FREE");
+			b.setPrice(pr + "$");
 			b.setReadLink(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink"));
 		}
 		return b;
 	}
 
-	// -------------------------- Them sach vao database --------------------------
-	public void AddBook(Book b) {
-		DBUtils db = DBUtils.getInstance();
-		String bookSql = "insert into books(title,cover,author, category, price,description, isbn, readlink) values(?,?,?,?,?,?,?,?);";
-		Connection con = null;
-
-		// Them tac gia
-
-		// Them sach
-		try {
-			con = db.getConnection();
-			// ---------
-			PreparedStatement statement = null;
-			// ---------
-
-			statement = con.prepareStatement(bookSql);
-			statement.setString(1, b.getTitle());
-			statement.setString(2, b.getImageUrl());
-			statement.setString(3, b.getAuthor());
-			statement.setString(4, b.getCategory());
-			statement.setString(5, b.getPrice());
-			statement.setString(6, b.getDescription());
-			statement.setString(7, b.getIsbn());
-			statement.setString(8, b.getReadLink());
-			statement.executeUpdate();
-
-			// ---------
-		} catch (Exception e) {
-			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-		} finally {
-			try {
-				DBUtils.closeConnection(con);
-			} catch (SQLException e) {
-				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-			}
-		}
-
-	}
-
-	// ----------------------------------------------------------------------------
-
 	// ---------------- Them user,book vao database ----------------
-	public void addUser_Book(int user_id, int book_id) {
+	public void addUser_Book(int user_id, String isbn) {
 		DBUtils db = DBUtils.getInstance();
-		String sql = "insert into users_books(user_id, book_id) values(?,?);";
+		String sql = "insert into users_books(user_id, book_isbn) values(?,?);";
 		Connection con = null;
 		try {
 			con = db.getConnection();
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1, user_id);
-			statement.setInt(2, book_id);
+			statement.setString(2, isbn);
 			statement.executeUpdate();
 		} catch (Exception e) {
 			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -216,43 +143,20 @@ public class BookDAO {
 		}
 	}
 
-	// -------------------------- Xoa sach khoi database --------------------------
-	public void RmvBook(String isbn) {
-		DBUtils db = DBUtils.getInstance();
-		String sql = "DELETE from books where isbn=?";
-		// kiem tra truong hop xoa sach thi phai xoa cac du lieu tu cac bang khac lien
-		// quan
-		// toi sach do
-		Connection con = null;
-		try {
-			con = db.getConnection();
-			PreparedStatement statement = con.prepareStatement(sql);
-			String id1 = isbn;
-			statement.setString(1, id1);
-			statement.execute();
-		} catch (Exception e) {
-			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-		} finally {
-			try {
-				DBUtils.closeConnection(con);
-			} catch (SQLException e) {
-				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-			}
-		}
-	}
+	// kiem tra xem nguoi dung co sach hay khong
 
-	// ---------------------------------------------------`--------------------------
-	public boolean checkAuthor_notexists(int thisid) {
-		ArrayList<Integer> list_author_id = new ArrayList<Integer>();
+	public boolean owned(String id, String isbn) throws JSONException, IOException {
+		ArrayList<String> list = new ArrayList<String>();
 		DBUtils db = DBUtils.getInstance();
-		String sql = "Select * from author";
+		String sql = "select * from users inner join users_books on users.user_id = users_books.user_id where users.user_id=?";
 		Connection con = null;
 		try {
 			con = db.getConnection();
 			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, id);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				list_author_id.add(rs.getInt("author_id"));
+				list.add(rs.getString("book_isbn"));
 			}
 		} catch (Exception e) {
 			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -263,62 +167,12 @@ public class BookDAO {
 				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
 			}
 		}
-		for (int i : list_author_id) {
-			if (thisid == i) {
-				return false;
+		for (String i : list) {
+			if (i.equals(isbn)) {
+				return true;
 			}
 		}
-		return true;
-	}
-
-	public int getNextBookId() {
-		int currentid = 0;
-		DBUtils db = DBUtils.getInstance();
-		String sql = "Select * from books";
-		Connection con = null;
-		try {
-			con = db.getConnection();
-			PreparedStatement statement = con.prepareStatement(sql);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				currentid++;
-			}
-		} catch (Exception e) {
-			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-		} finally {
-			try {
-				DBUtils.closeConnection(con);
-			} catch (SQLException e) {
-				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-			}
-		}
-		return currentid;
-	}
-
-	public int getNextAuthorId() {
-		int currentid = 0;
-		DBUtils db = DBUtils.getInstance();
-		String sql = "Select * from author";
-		Connection con = null;
-		try {
-			con = db.getConnection();
-			PreparedStatement statement = con.prepareStatement(sql);
-			ResultSet rs = statement.executeQuery();
-			while (rs.next()) {
-				currentid++;
-			}
-		} catch (Exception e) {
-			Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-		} finally {
-			try {
-				DBUtils.closeConnection(con);
-			} catch (SQLException e) {
-				Logger.getLogger(BookDAO.class.getName()).log(Level.SEVERE, null, e);
-			}
-		}
-		return currentid;
+		return false;
 	}
 
 }
-
-// them chuc nang tim sach ko theo api (tim dua tren cac column: category, name, author, isbn,...) trong database

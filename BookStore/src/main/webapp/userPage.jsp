@@ -27,6 +27,10 @@
             background: yellowgreen;
             color: white;
         }
+        .desClass{
+        font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 15px;
+        }
     </style>
 </head>
 <body style="background-color: #D8C3A5;">

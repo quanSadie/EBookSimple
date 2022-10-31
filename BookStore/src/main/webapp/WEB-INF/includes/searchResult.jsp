@@ -29,7 +29,7 @@
         <a href="ShowOneBookServlet?currentISBN13=<c:out value="${value.isbn}" />" class="thumbnail bge" title="<c:out value="${value.title}" />"><img style="width: 150px;" src="<c:out value="${value.imageUrl}" />" alt="HackSpace Magazine: Issue 58"></a>
       </div>    
       <div class="col-md-8 justify">
-      <p class="desClass">
+      <p class="desClass" style="font-family: 'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;font-size: 15px;">
       <a class="b text-decoration-none" style="color: #2a6496;font-size: 1.2rem; font-weight: bold;" href="ShowOneBookServlet?currentISBN13=<c:out value="${value.isbn}" />" title="<c:out value="${value.title}" />"><c:out value="${value.title}" /></a>
        <span class="nobr">
        <span class="nobr" title="Without ratings">

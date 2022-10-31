@@ -24,6 +24,9 @@ ul li ul li a {display:block !important;}
 text-decoration: none;
 color: whitesmoke;
 }
+#categorize{
+border-radius: 5px;
+}
 </style>
  <header  class="header sticky-top" style="background-color: #dde6b5;">
         <nav class="navbar  navbar-expand-lg">
@@ -46,25 +49,6 @@ color: whitesmoke;
       				</ul>
    				 </li>
                     
-                           
-                        <!-- <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.jsp"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i>
-                             Category</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <div class="">
-                                    <li><a class="dropdown-item" href="SearchBookServlet?searchinfo=Art"><i class="fa fa-paint-brush" aria-hidden="true"></i> Art</a></li>
-                                    <li><a class="dropdown-item" href="SearchBookServlet?searchinfo=Biography"><i class="fa fa-caret-square-o-up" aria-hidden="true"></i> Biography</a></li>
-                                    <li><a class="dropdown-item" href="SearchBookServlet?searchinfo=Comic"><i class="fa fa-bolt" aria-hidden="true"></i> Comic</a></li>
-                                </div>
-                                <div class="">
-                                    <li><a class="dropdown-item" href="SearchBookServlet?searchinfo=Horror"><i class="fa fa-bug" aria-hidden="true"></i> Horror</a></li>
-                                    <li><a class="dropdown-item" href="SearchBookServlet?searchinfo=Mystery"><i class="fa fa-leaf" aria-hidden="true"></i> Mystery</a></li>
-                                    <li><a class="dropdown-item" href="SearchBookServlet?searchinfo=Poetry"><i class="fa fa-moon-o" aria-hidden="true"></i> Poetry</a></li>
-                                </div>
-
-                            </ul>
-                        </li> -->
                     </ul>
 
 
@@ -72,6 +56,7 @@ color: whitesmoke;
                     <%if (request.getSession().getAttribute("this_id") != null ){ %>
                     <%String name = (String) request.getSession().getAttribute("this_name"); %>
                     <%String role = (String) request.getSession().getAttribute("this_role"); %>
+                    <%String userID = (String) request.getSession().getAttribute("this_id"); %>
                     
                     	Welcome <span style="color: green; font-weight: bolder; margin-right: 10px; margin-left: 5px;"> <%=name%>   </span>
                     	<a style="margin-right: 5px;" class="btn btn-success" href="profile?role=<%=role%>" role="button"><i class="fa fa-address-card" aria-hidden="true"></i> Profile</a>

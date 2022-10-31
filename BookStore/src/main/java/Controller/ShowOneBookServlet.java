@@ -23,6 +23,10 @@ public class ShowOneBookServlet extends HttpServlet {
 		BookDAO dao = new BookDAO();
 		Book b = dao.showBookDetail(this_isbn13);
 		HttpSession session = request.getSession();
+		if (request.getSession().getAttribute("this_id") != null) {
+			boolean own = dao.owned((String) request.getSession().getAttribute("this_id"), this_isbn13);
+			session.setAttribute("bookOwned", own);
+		}
 		session.setAttribute("thisBookDetail", b);
 		response.sendRedirect("bookdetail.jsp");
 	}

@@ -10,8 +10,9 @@
             <hr>
         </div>
         <!--books-->
-        <%@ page import="java.util.ArrayList, Model.Account" %>
+        <%@ page import="java.util.ArrayList, Model.Account, Model.Book" %>
     <%	Account acc = (Account )request.getSession().getAttribute("person");%>
+     <%	ArrayList<Book> ownBook = (ArrayList<Book>)request.getSession().getAttribute("ownedBooks");%>
     <div class="container" id="bookContainer">
         <div class="row ">
             <div class="col-md-4">
@@ -47,42 +48,27 @@
             </div>
             <div class="col-md-8">
                     <!--The book info start-->
+                    <% for (Book i: ownBook) {%>
+                   
                     <div style="margin: auto; box-shadow:8px 5px 5px 8px #888888;" class="row mb-3 d-flex justify-content-between">
                         <div class="col-md-9 col-sm-6 col-xl-4 text-center">
                             <a href="#" class="thumbnail bge">
-                                <img src="https://m.media-amazon.com/images/I/41gr3r3FSWL.jpg" alt="Book cover" class="lazy" style="display:inline-block; width: 25vh;">
+                                <img src="<%=i.getImageUrl() %>" alt="Book cover" class="lazy" style="display:inline-block; width: 25vh;">
                             </a>
                         </div>
                         <div style="margin: auto;" class="col-md-9 col-sm-6 desc col-xl-8">
                             <p>
-                                <a href="ShowOneBookServlet?currentISBN13=1234567890" class="b text-decoration-none">
-                                        Book title
-                                    </a>
-                                <br>
-                                <span style="font-weight: 700;" class="price">FREE</span>
-                                <br>
-                                <span class="nobr">
-                                        <span class="nobr" title="without ratting">
-                                            <img src="./img/star0.png" width="16" height="16" alt="star">
-                                            <img src="./img/star0.png" width="16" height="16" alt="star">
-                                            <img src="./img/star0.png" width="16" height="16" alt="star">
-                                            <img src="./img/star0.png" width="16" height="16" alt="star">
-                                            <img src="./img/star0.png" width="16" height="16" alt="star">
-                                        </span>
-                                </span>
+                                <a style="color: #2a6496;font-size: 1.2rem; font-weight: bold;" href="ShowOneBookServlet?currentISBN13=<%=i.getIsbn() %>" class="b text-decoration-none">
+                                        <%=i.getTitle() %>
+                                    </a>          
                             </p>
                             <p>
-                                <small>
-                                        by
-                                        <b>Christian Mayer</b>
-                                    </small>
                             </p>
-                            <p class="desClass"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            <p class="desClass"> <%=i.getDescription() %>
                             </p>
                         </div>
                     </div>
-    
+    			<% } %>
             </div>
         </div>
     </div>

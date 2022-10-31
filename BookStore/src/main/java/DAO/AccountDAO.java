@@ -83,7 +83,7 @@ public class AccountDAO {
 			PreparedStatement statement = con.prepareStatement(sql);
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
-				uList.add(new Account(rs.getString("id"), rs.getString("userEmail"), rs.getString("username"),
+				uList.add(new Account(rs.getString("user_id"), rs.getString("userEmail"), rs.getString("username"),
 						rs.getString("password"), rs.getInt("role"), rs.getString("fullname"), rs.getInt("statusAcc")));
 			}
 		} catch (Exception e) {
