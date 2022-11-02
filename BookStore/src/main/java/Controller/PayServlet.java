@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.paypal.base.rest.PayPalRESTException;
 
+import DAO.AccountDAO;
 import DAO.BookDAO;
 import Model.OrderDetail;
 
@@ -44,6 +46,8 @@ public class PayServlet extends HttpServlet {
 		String bookISBN = request.getParameter("bookisbn");
 		BookDAO dao = new BookDAO();
 		dao.addUser_Book(Integer.parseInt(u_id), bookISBN);
+		AccountDAO accDAO = new AccountDAO();
+		accDAO.insertLogs(u_id, bookISBN, total, LocalDateTime.now().toString());
 
 		OrderDetail orderDetail = new OrderDetail(product, subtotal, shipping, tax, total);
 

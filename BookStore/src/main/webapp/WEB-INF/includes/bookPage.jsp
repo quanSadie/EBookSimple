@@ -24,26 +24,30 @@
                     <form action="PayServlet" method="post">
                     <%if (request.getSession().getAttribute("this_id") != null ){ %>
                     <%String userID = (String) request.getSession().getAttribute("this_id"); %>
-                    <%boolean own = (boolean) request.getSession().getAttribute("bookOwned"); %>
+                     <input type="hidden" name="uID" id="uID" value="<%=userID%>">
                     <%} %>
-                   
+                  
                     <input type="hidden" name="product" id="product" value="${b1.title}">
                     <input type="hidden" name="bookisbn" id="bookisbn" value="${b1.isbn}">
-                    <input type="hidden" name="shipping" id="shipping" value="0.01">
-                    <input type="hidden" name="subtotal" id="subtotal" value="0.01">
-                    <input type="hidden" name="tax" id="tax" value="0.01">
-                    <input type="hidden" name="total" id="total" value="0.03">
+                    <input type="hidden" name="shipping" id="shipping" value="0">
+                    <input type="hidden" name="subtotal" id="subtotal" value="${b1.price}">
+                    <input type="hidden" name="tax" id="tax" value="0">
+                    <input type="hidden" name="total" id="total" value="${b1.price}">
                     <%if (request.getSession().getAttribute("this_id") != null ){ %>
                     <%boolean own = (boolean) request.getSession().getAttribute("bookOwned");  %>
-                    <%if (own == true){ %>
+                    <%if (own == false){ %>
                     <input type="submit" class="btn btn-block btn1 max300 buybtn" value="BUY">
                     <%} %>
                      <%} else{  %> <input type="submit" class="btn btn-block btn1 max300 buybtn" value="BUY">
                     <%} %>
                     </form>
                     <br>
+                    <%if (request.getSession().getAttribute("this_id") != null ){ %>
+                    <%boolean own = (boolean) request.getSession().getAttribute("bookOwned");  %>
+                    <%if (own == true){ %>
                     <a href="<c:out value="${b1.readLink}" />" class="btn btn-block btn-default max300" rel="nofollow" target="_blank" title="preview" style="background: #939393; color:#fff;">READ</a>
-          
+          			<%} %>
+          			<%} %>
                 </div>
                 </div>
                 

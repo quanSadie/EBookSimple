@@ -54,10 +54,6 @@
                         Options
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        <li><a class="dropdown-item" href="UpdateServletAdmin?user=${NAME.username}">Update Account</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
                         <li><a class="dropdown-item" href="logout">Logout</a></li>
                     </ul>
                 </li>
@@ -102,10 +98,7 @@
                                             <td class="text-center">"${value.roleID}"</td>
                                             <td class="text-center"><c:out value="${value.fullName}" /></td>
                                             <td class="text-center">
-                                                <a class="btn btn-outline-secondary" href="./staffUpdateBook.html">Update</a>
-                                            </td>
-                                            <td class="text-center">
-                                                <a class="btn btn-outline-secondary" href="./staffUpdateBook.html">Delete</a>
+                                                <a class="btn btn-outline-secondary" href="RemoveUserServlet?thisid=${value.userID}">Delete</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -125,27 +118,27 @@
                 <div class="row justify-content-center">
                     <div class="col-lg">
                         <div>
+                         <%@ page import="Model.Logs" %>
+                                <%ArrayList<Logs> logs = (ArrayList<Logs>) request.getSession().getAttribute("allLogs"); %>
+                                <%request.setAttribute("logLists", logs); %>
                             <table class="table table-primary table-bordered border-light table-hover">
                                 <thead class="table-light">
-                                    <tr class="text-center">
-                                        <td>Product ID</td>
-                                        <td>Product Name</td>
-                                        <td>Price</td>
-
-
+                                 <tr class="text-center">
+                                        <td>User ID</td>
+                                        <td>Book ISBN</td>
+                                        <td>Price ($)</td>
+                                        <td>Time</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:set var="p" value="${PRODUCT}" scope="session" />
-                                    <c:forEach items="${p}" var="product">
-                                        <tr>
-                                            <td class="text-center"></td>
-                                            <td class="text-center"></td>
-                                            <td class="text-center"></td>
-
-
-                                        </tr>
-                                    </c:forEach>
+                                    <c:forEach items="${requestScope.logLists}" var="value">
+                                    <tr class="text-center">
+                                        <td><c:out value="${value.log_userID}" /></td>
+                                        <td><c:out value="${value.log_bookisbn}" /></td>
+                                        <td><c:out value="${value.log_price}" /></td>
+                                        <td><c:out value="${value.log_time}" /></td>
+                                    </tr>
+                                     </c:forEach>
                                 </tbody>
                             </table>
                         </div>

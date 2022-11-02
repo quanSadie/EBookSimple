@@ -115,7 +115,7 @@ public class BookDAO {
 			b.setImageUrl(arr.getJSONObject(i).getJSONObject("volumeInfo").getJSONObject("imageLinks")
 					.getString("thumbnail"));
 			b.setIsbn(isbn_13);
-			b.setPrice(pr + "$");
+			b.setPrice(pr + "");
 			b.setReadLink(arr.getJSONObject(i).getJSONObject("volumeInfo").getString("previewLink"));
 		}
 		return b;

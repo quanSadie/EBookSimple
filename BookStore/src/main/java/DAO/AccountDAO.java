@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import DBConnect.DBUtils;
 import Model.Account;
+import Model.Logs;
 
 public class AccountDAO {
 
@@ -200,4 +201,58 @@ public class AccountDAO {
 			}
 		}
 	}
+
+	// ghi logs
+	public boolean insertLogs(String id, String isbn, String fee, String time) {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "insert into logs(user_id,book_isbn,fee,buyTime) values(?,?,?,?);";
+		Connection con = null;
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, id);
+			statement.setString(2, isbn);
+			statement.setString(3, fee);
+			statement.setString(4, time);
+			statement.executeUpdate();
+			return true;
+		} catch (Exception e) {
+			Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		return false;
+	}
+
+	// load logs
+	// hien thi thong tin nguoi dung
+	public ArrayList<Logs> loadLogs() {
+		DBUtils db = DBUtils.getInstance();
+		String sql = "Select * from logs";
+		Connection con = null;
+		ArrayList<Logs> logList = new ArrayList<Logs>();
+		try {
+			con = db.getConnection();
+			PreparedStatement statement = con.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				logList.add(new Logs(rs.getString("user_id"), rs.getString("book_isbn"), rs.getString("fee"),
+						rs.getString("buyTime")));
+			}
+		} catch (Exception e) {
+			Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			try {
+				DBUtils.closeConnection(con);
+			} catch (SQLException e) {
+				Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, e);
+			}
+		}
+		return logList;
+	}
+
 }

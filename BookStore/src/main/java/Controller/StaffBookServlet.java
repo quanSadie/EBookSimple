@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import DAO.AccountDAO;
 import Model.Account;
+import Model.Logs;
 
 /**
  * Servlet implementation class StaffBookServlet
@@ -38,10 +39,12 @@ public class StaffBookServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		AccountDAO dao = new AccountDAO();
 		ArrayList<Account> list = new ArrayList<Account>();
-
+		ArrayList<Logs> logList = new ArrayList<Logs>();
 		list = dao.displayUsers();
+		logList = dao.loadLogs();
 
 		session.setAttribute("allUsers", list);
+		session.setAttribute("allLogs", logList);
 		response.sendRedirect("staff.jsp");
 	}
 
